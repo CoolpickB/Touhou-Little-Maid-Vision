@@ -1,0 +1,17 @@
+{
+    "sortnum":  11,
+    "name":  "book.tlmvision.third_eye.name",
+    "icon":  "tlmvision:third_eye",
+    "category":  "touhou_little_maid:maid",
+    "pages":  [
+                  {
+                      "type":  "spotlight",
+                      "item":  "tlmvision:third_eye",
+                      "text":  "book.tlmvision.third_eye.intro"
+                  },
+                  {
+                      "type":  "altar_recipe",
+                      "recipe_id":  "tlmvision:third_eye"
+                  }
+              ]
+}

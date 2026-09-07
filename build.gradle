@@ -1,0 +1,70 @@
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.42-beta'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = neo_version
+
+    parchment {
+        mappingsVersion = parchment_mappings_version
+        minecraftVersion = parchment_minecraft_version
+    }
+
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+def tlmJar = providers.gradleProperty("tlmJar")
+        .map { file(it) }
+        .getOrElse(file("libs/touhoulittlemaid-1.5.3-neoforge+mc1.21.1.jar"))
+
+if (!tlmJar.isFile()) {
+    throw new GradleException("Put touhoulittlemaid-1.5.3-neoforge+mc1.21.1.jar in libs/, or set -PtlmJar=<path>.")
+}
+
+dependencies {
+    compileOnly files(tlmJar)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Forward console commands to the isolated development server.
+tasks.named("runServer", JavaExec).configure { standardInput = System.in }
+
+// Opt-in integration checks run inside Minecraft, with a loopback-only fake vision provider.
+if (project.hasProperty('eyeSmoke')) {
+    sourceSets {
+        smoke {
+            compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+            runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+        }
+    }
+    neoForge.mods.tlmvision.sourceSet(sourceSets.smoke)
+}

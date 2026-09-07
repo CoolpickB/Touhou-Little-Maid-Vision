@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.coolpick.tlmvision.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "SettingsHubMixin",
+    "SiteEditorMixin",
+    "BorrowedSightGuiMixin",
+    "BorrowedSightRendererMixin",
+    "BorrowedPlayerMixin",
+    "BorrowedMouseMixin",
+    "HistoryScrollAccessor",
+    "ChatTokenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
