@@ -29,8 +29,8 @@ public final class VisionConfig {
     public String pinnedModel = "";
     /** Additional direction for the vision model; the required three-line format stays in the system prompt. */
     public String prompt = DEFAULT_PROMPT;
-    public int maxWidth = 768;
-    public int maxTokens = 1000;
+    public int maxWidth = 512;
+    public int maxTokens = 2048;
     /** How many maids one press can reach. */
     public int maxMaids = 3;
     /** A maid joins the group only while she is this close to every maid already in it. */
@@ -38,7 +38,7 @@ public final class VisionConfig {
     @SerializedName(value = "showObservation", alternate = "debugChat")
     public boolean showObservation = false;
     @SerializedName(value = "chatImprovements", alternate = "aiFixes")
-    public boolean chatImprovements = false;
+    public boolean chatImprovements = true;
     private VisionConfig() {
     }
 
@@ -66,9 +66,9 @@ public final class VisionConfig {
                         loaded.save();
                     }
                     loaded.maxWidth = Math.clamp(loaded.maxWidth, 128, 1920);
-                    loaded.maxTokens = Math.clamp(loaded.maxTokens, 64, 1000);
+                    loaded.maxTokens = Math.clamp(loaded.maxTokens, 64, 4096);
                     loaded.maxMaids = Math.clamp(loaded.maxMaids, 1, 16);
-                    loaded.groupRange = Math.clamp(loaded.groupRange, 1, 256);
+                    loaded.groupRange = Math.clamp(loaded.groupRange, 0, 256);
                     return loaded;
                 }
             } catch (IOException | com.google.gson.JsonParseException e) {

@@ -11,7 +11,9 @@
     "BorrowedPlayerMixin",
     "BorrowedMouseMixin",
     "HistoryScrollAccessor",
-    "ChatTokenMixin"
+    "ChatTokenMixin",
+    "QueuedVisionChatMixin",
+    "QueuedVisionVoiceMixin"
   ],
   "injectors": {
     "defaultRequire": 1

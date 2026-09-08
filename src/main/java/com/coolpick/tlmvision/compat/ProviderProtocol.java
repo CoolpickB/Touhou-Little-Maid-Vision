@@ -191,7 +191,7 @@ public final class ProviderProtocol {
         JsonObject choice = decode(response, format).getAsJsonArray("choices").get(0).getAsJsonObject();
         String answer = text(choice.getAsJsonObject("message").get("content")).trim();
         if (answer.isEmpty()) throw new IOException(str(choice,"finish_reason").equals("length")
-                ? "Vision model used its token budget before answering. Disable reasoning or increase the vision token limit."
+                ? "Vision request reached its output limit before a description arrived. Try again, use a faster model, or raise the vision token limit."
                 : "Vision model returned no visible description. Try a different vision model.");
         return answer;
     }

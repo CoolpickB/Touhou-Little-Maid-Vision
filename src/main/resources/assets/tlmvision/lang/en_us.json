@@ -13,14 +13,18 @@
     "tlmvision.eye.reply": "%s is preparing a reply...",
     "tlmvision.eye.captured": "Sight captured",
     "tlmvision.provider.opencode_go": "OpenCode Go",
-    "tlmvision.screen.vision.show_observation": "Show observation in chat: %s",
     "tlmvision.eye.maids": "%s maids",
+    "tlmvision.chat.queued": "<%s> %s",
     "book.tlmvision.third_eye.name": "Third Eye",
     "book.tlmvision.third_eye.intro": "A bauble that allows the owner and maid to share their sight.$(br2)After being equipped, the owner can borrow the maid's sight and control where she looks. The maid can also receive a view shared by her owner and describe it in chat.",
     "tlmvision.borrow": "Borrowing %s",
     "tlmvision.borrow.multi": "Borrowing %s (%s/%s)",
     "tlmvision.tokens.line": "Context %s/%s  ·  Spent %s/%s",
     "tlmvision.config.title": "Touhou Little Maid: Vision",
-    "tlmvision.config.chat_improvements": "TLM chat screen improvements: %s",
-    "tlmvision.config.chat_improvements.detail": "Client-side improvements to Touhou Little Maid's chat screens: a drag bar for the history that opens at the newest message and keeps its place, plus a context counter that shows the last request's size against the history compress limit and lifetime spend."
+    "tlmvision.config.show_observation": "Show observation in chat: %s",
+    "tlmvision.config.max_maids": "Share with up to %s maids",
+    "tlmvision.config.group_range": "Maid group range: %s blocks",
+    "tlmvision.config.group_range.nearest": "Maid group range: nearest only",
+    "tlmvision.config.max_tokens": "Vision output limit: %s tokens",
+    "tlmvision.config.chat_improvements": "TLM chat screen improvements: %s"
 }

@@ -1,6 +1,6 @@
 # Touhou Little Maid: Vision
 
-Third Eye lets you share what you see with your maids.
+Third Eye lets you share what you see with your maids, and vice versa.
 
 ## What it does
 
@@ -9,7 +9,7 @@ Third Eye lets you share what you see with your maids.
 - Hold **[** to look through one maid's eyes. Move the mouse to turn her view. Use the mouse wheel to switch maids.
 - Recommend changing the keybinds to something more comfortable. 
 
-The maid receives a short description of the view, then replies in character through normal chat.
+The mod makes one sight request, then shares its short description with up to three nearby maids wearing a Third Eye by default. Every maid in that group must be within the configured range of every other maid. You can change both values in the mod config screen; set the range to zero to share with only the nearest maid. Each maid then replies in character through normal chat.
 
 ## Getting started
 
@@ -19,7 +19,7 @@ Craft a Third Eye at TLM's altar with 1 Eye of Ender, 1 Aya's Camera, 4 Redstone
 
 Open a maid's chat settings and choose a service that can read images. The Vision menu lets you choose a separate service for sight sharing, or use the maid's normal chat choice. Open the menu from the maid's chat settings screen.
 
-Vision descriptions use up to 1,000 output tokens. If a service spends too long thinking instead of answering, choose a faster service or turn off its thinking mode.
+Vision descriptions use up to 2,048 output tokens and wait up to 25 seconds. Sight pictures are resized before sending. If a service is slow or reaches its output limit, try again or choose a faster service.
 
 ## Other Notes
 
@@ -29,9 +29,15 @@ I considered adding an ambient vision, where the AI could take it's own screensh
 
 ## Settings
 
-The Vision menu has a switch called **Show observation in chat**. It shows the raw sight description in your chat before the maid replies.
+Most of the settings are in the mod config screen. **Show observation in chat** puts the short sight description in chat before the maids reply. Useful if you want to see exactly what they were told.
 
-The mod's config screen has optional chat screen improvements: a history scroll bar and a clearer context counter. Recommended to turn it on, shouldn't break anything. Probably.
+**Share with up to** changes how many Third Eye maids can react to one picture. It still only sends one picture request, but every maid gets their own reply afterwards, so a high number can get a little noisy.
+
+**Maid group range** controls how close the maids need to be to each other to join the same share. Setting it to 0 just picks the nearest maid.
+
+**Vision output limit** gives the image service more room to answer. Leave it at 2,048 unless you are getting cut-off answers. Higher can be slower and cost a little more.
+
+**TLM chat screen improvements** adds a history scroll bar and a clearer context counter. Recommended to leave it on, shouldn't break anything. Probably.
 
 ## Building
 

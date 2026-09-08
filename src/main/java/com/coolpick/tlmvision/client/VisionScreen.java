@@ -5,13 +5,11 @@ import com.coolpick.tlmvision.VisionConfig;
 import com.github.tartaricacid.touhoulittlemaid.ai.manager.site.AvailableSites;
 import com.github.tartaricacid.touhoulittlemaid.ai.service.llm.LLMSite;
 import com.github.tartaricacid.touhoulittlemaid.ai.service.llm.openai.LLMOpenAISite;
-import com.github.tartaricacid.touhoulittlemaid.client.gui.widget.button.FlatColorButton;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
 import java.util.Map;
@@ -25,7 +23,6 @@ import java.util.TreeMap;
  */
 public class VisionScreen extends com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.ai.settings.AIChatSettingsHubScreen {
     private VisionList list;
-    private FlatColorButton observation;
 
     public VisionScreen(Screen parent, SharedState state, boolean insufficientPermissions) {
         super(parent, state, insufficientPermissions);
@@ -37,20 +34,9 @@ public class VisionScreen extends com.github.tartaricacid.touhoulittlemaid.clien
         minecraft.setScreen(new VisionScreen(parent, state, insufficientPermissions));
     }
     @Override protected void initContent() {
-        this.list = new VisionList(this.minecraft, getContentWidth(), 144, getContentY() + 50, 22, VisionConfig.load());
+        this.list = new VisionList(this.minecraft, getContentWidth(), 144, getContentY() + 33, 22, VisionConfig.load());
         this.list.setX(getContentX());
         this.addRenderableWidget(this.list);
-        this.observation = this.addRenderableWidget(new FlatColorButton(getContentX() + 6, getContentY() + 33,
-                getContentWidth() - 12, 14, observationLabel(VisionConfig.load()), button -> {
-            VisionConfig config = VisionConfig.load();
-            config.showObservation = !config.showObservation;
-            config.save();
-            button.setMessage(observationLabel(config));
-        }));
-    }
-    private static Component observationLabel(VisionConfig config) {
-        return Component.translatable("tlmvision.screen.vision.show_observation",
-                CommonComponents.optionStatus(config.showObservation));
     }
     @Override public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         super.render(graphics, mouseX, mouseY, partialTick);

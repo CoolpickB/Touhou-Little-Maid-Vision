@@ -1,5 +1,6 @@
 package com.coolpick.tlmvision.mixin;
 import com.coolpick.tlmvision.client.ChatTokenLine;
+import com.coolpick.tlmvision.VisionConfig;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.ai.AIChatScreen;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,6 +23,11 @@ public abstract class ChatTokenMixin extends Screen {
     @Shadow private int currentTokens;
     @Shadow private int maxTokens;
     private ChatTokenMixin() { super(null); }
+
+    @Inject(method = "init", at = @At("HEAD"))
+    private void tlmvision$loadChatSettings(CallbackInfo callback) {
+        VisionConfig.refreshChatImprovements();
+    }
 
     @Inject(method = "renderTokenUsage", at = @At("HEAD"), cancellable = true)
     private void contextAndSpend(GuiGraphics graphics, CallbackInfo callback) {
