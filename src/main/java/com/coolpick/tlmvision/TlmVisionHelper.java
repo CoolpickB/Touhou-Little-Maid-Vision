@@ -35,6 +35,7 @@ public class TlmVisionHelper {
         modBus.addListener(com.coolpick.tlmvision.network.MaidSettingsPayload::register);
         NeoForge.EVENT_BUS.addListener(com.coolpick.tlmvision.network.MaidSettingsPayload::startTracking);
         NeoForge.EVENT_BUS.addListener(MaidLookController::tick);
+        NeoForge.EVENT_BUS.addListener(com.coolpick.tlmvision.compat.OpenCodeGoSite::refreshModels);
         if (FMLEnvironment.dist == Dist.CLIENT) {
             com.coolpick.tlmvision.client.VisionKeys.init(modBus);
             container.registerExtensionPoint(net.neoforged.neoforge.client.gui.IConfigScreenFactory.class,

@@ -2,8 +2,18 @@ package com.coolpick.tlmvision.compat;
 import com.github.tartaricacid.touhoulittlemaid.ai.service.SerializableSite;
 import com.github.tartaricacid.touhoulittlemaid.ai.service.llm.LLMClient;
 import com.github.tartaricacid.touhoulittlemaid.ai.service.llm.openai.LLMOpenAISite;
+import com.github.tartaricacid.touhoulittlemaid.ai.manager.site.AvailableSites;
+import com.github.tartaricacid.touhoulittlemaid.ai.service.llm.LLMSite;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.*;
 
 /** One saved key and automatic model-specific routing, in TLM's normal provider list. */
@@ -30,6 +40,31 @@ public final class OpenCodeGoSite extends LLMOpenAISite {
     @Override public String getApiType() { return TYPE; }
     @Override public String getNameKey() { return "tlmvision.provider.opencode_go"; }
     @Override public LLMClient client() { return new OpenCodeGoClient(LLM_HTTP_CLIENT, this); }
+    /**
+     * TLM writes llm.json on the first launch and reads it back after that, so new defaults reach
+     * only new installs. The server adds the new ids from /models (no key needed). It never removes
+     * a model, so a model that a maid uses or that the player added stays. If the fetch fails, the
+     * saved list stays and {@link #defaults()} is only the seed for a new install.
+     */
+    public static void refreshModels(ServerStartedEvent event) {
+        MinecraftServer server = event.getServer();
+        HttpRequest request = HttpRequest.newBuilder(URI.create(ProviderProtocol.GO_BASE + "/models")).timeout(Duration.ofSeconds(10)).GET().build();
+        LLM_HTTP_CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(response -> {
+            if (response.statusCode() != 200) return;
+            List<String> ids = new ArrayList<>();
+            for (JsonElement model : ProviderProtocol.array(JsonParser.parseString(response.body()).getAsJsonObject(), "data"))
+                ids.add(ProviderProtocol.str(model.getAsJsonObject(), "id"));
+            server.execute(() -> addModels(ids));
+        });
+    }
+    private static void addModels(List<String> ids) {
+        boolean changed = false;
+        for (LLMSite site : AvailableSites.LLM_SITES.values()) {
+            if (!(site instanceof OpenCodeGoSite go)) continue;
+            for (String id : ids) if (!id.isBlank() && !go.modelEntries().containsKey(id)) { go.addModel(id); changed = true; }
+        }
+        if (changed) AvailableSites.saveSites();
+    }
     private static Map<String, ModelEntry> defaults() {
         Map<String, ModelEntry> models = new LinkedHashMap<>();
         for (String id : List.of("mimo-v2.5", "mimo-v2.5-pro", "gpt-5.6-luna", "grok-4.6", "glm-5.3-flash", "glm-5.3", "glm-5.2", "glm-5.1", "kimi-k3", "kimi-k2.7-code", "kimi-k2.6", "longcat-2.0", "deepseek-v4-pro", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp", "minimax-m3", "minimax-m2.7", "qwen3.8-max", "qwen3.8-flash", "qwen3.7-max", "qwen3.7-plus", "qwen3.6-plus", "muse-spark-1.3-contributor", "muse-spark-1.2-contributor", "hy4-preview", "hy3", "omen-alpha")) models.put(id, new ModelEntry(id));

@@ -18,7 +18,7 @@ public final class ProviderProtocol {
     }
     public static Format goFormat(String model) {
         if (model.startsWith("gpt-") || model.startsWith("grok-") || model.startsWith("muse-spark-")) return Format.RESPONSES;
-        if (model.startsWith("minimax-") || model.startsWith("qwen")) return Format.MESSAGES;
+        if (model.startsWith("minimax-") || model.startsWith("qwen") || model.startsWith("claude-")) return Format.MESSAGES;
         return Format.CHAT;
     }
     public static String endpoint(String url, String model) {
